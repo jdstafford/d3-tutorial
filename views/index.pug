@@ -1,0 +1,193 @@
+html
+  head
+    title= "d3 demo"
+    script(
+      type= "text/javascript"
+      src= "https://d3js.org/d3.v5.js"
+    )
+    script(
+      type= "text/javascript"
+      src= "https://code.jquery.com/jquery-3.3.1.min.js"
+    )
+    script(
+      type= "text/javascript"
+      src= "https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"
+    )
+    style.
+      body {
+        padding: 20px;
+        font-family: Helvetica, Arial, sans;
+      }
+
+      .loader {
+          border: 16px solid #f3f3f3;
+          border-top: 16px solid #3498db;
+          border-radius: 50%;
+          width: 120px;
+          height: 120px;
+          animation: spin 2s linear infinite;
+      }
+
+      @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+      }      
+body
+    h1= "d3 demo"
+    #main
+      .circle
+        //- h2= "a circle!"
+      .bar-chart
+        //- h2= "a bar chart!"
+      .table
+        //- h2= "a table!"
+        //- .loader
+      .graph
+        //- h2= "an interesting graph!"
+        //- .loader
+      .map
+        //- h2= "a map!"
+        //- .loader
+    script.
+      $(document).ready(function () {
+        //- var vizMain = d3.select(".circle")
+        //-   .append("svg")
+        //-   .attr("width", 100)
+        //-   .attr("height", 100);
+
+        //- vizMain.append("circle")
+        //-   .style("stroke", "gray")
+        //-   .style("fill", "white")
+        //-   .attr("r", 40)
+        //-   .attr("cx", 50)
+        //-   .attr("cy", 50)
+        //-   .on("mouseover", function(){ d3.select(this).style("fill", "blue"); })
+        //-   .on("mouseout", function(){ d3.select(this).style("fill", "white"); });
+
+        // ---- BAR CHART ----
+        //- var data = [
+        //-   {year: 2014, tacos: 540},
+        //-   {year: 2015, tacos: 443},
+        //-   {year: 2016, tacos: 276},
+        //-   {year: 2017, tacos: 843},
+        //-   {year: 2018, tacos: 741}
+        //- ];
+
+        //- var barWidth = 40;
+        //- var width = (barWidth + 10) * data.length;
+        //- var height = 200;
+
+        //- var x = d3.scale.linear().domain([0, data.length]).range([0, width]);
+        //- var y = d3.scale.linear().domain([0, d3.max(data, function(datum) { return datum.tacos; })]).
+        //-   rangeRound([15, height]);
+      
+        //- var barDemo = d3.select(".bar-chart").
+        //-   append("svg:svg").
+        //-   attr("width", width).
+        //-   attr("height", height);
+
+        //- barDemo.selectAll("rect").
+        //-   data(data).
+        //-   enter().
+        //-   append("svg:rect").
+        //-   attr("x", function(datum, index) { return x(index); }).
+        //-   attr("y", function(datum) { return height - y(datum.tacos); }).
+        //-   attr("height", function(datum) { return y(datum.tacos); }).
+        //-   attr("width", barWidth).
+        //-   attr("fill", "#2d578b");
+
+        //- barDemo.selectAll("text").
+        //-   data(data).
+        //-   enter().
+        //-   append("svg:text").
+        //-   attr("x", function(datum, index) { return x(index) + barWidth; }).
+        //-   attr("y", function(datum) { return height - y(datum.tacos); }).
+        //-   attr("dx", -barWidth/2).
+        //-   attr("dy", "1.2em").
+        //-   attr("text-anchor", "middle").
+        //-   text(function(datum) { return datum.tacos;}).
+        //-   attr("fill", "white");
+  
+        //- barDemo.selectAll("text.yAxis").
+        //-   data(data).
+        //-   enter().append("svg:text").
+        //-   attr("x", function(datum, index) { return x(index) + barWidth; }).
+        //-   attr("y", height - 15).
+        //-   attr("dx", -barWidth/2).
+        //-   attr("text-anchor", "middle").
+        //-   attr("style", "font-size: 12; font-family: Helvetica, sans-serif").
+        //-   text(function(datum) { return datum.year; }).
+        //-   attr("transform", "translate(0, 18)").
+        //-   attr("class", "yAxis");
+
+        // ---- TABLE ----
+        var heroData = "https://raw.githubusercontent.com/fivethirtyeight/data/master/comic-characters/marvel-wikia-data.csv";
+
+        //- d3.text(heroData, function(datasetText) {
+
+        //-   var parsedCSV = d3.csv.parseRows(datasetText);
+
+        //-   d3.select(".table")
+        //-       .append("table")
+        //-       .style("border-collapse", "collapse")
+        //-       .style("border", "2px black solid")
+
+        //-       .selectAll("tr")
+        //-       .data(parsedCSV)
+        //-       .enter().append("tr")
+
+        //-       .selectAll("td")
+        //-       .data(function(d){return d;})
+        //-       .enter().append("td")
+        //-       .style("border", "1px black solid")
+        //-       .style("padding", "5px")
+        //-       .on("mouseover", function(){d3.select(this).style("background-color", "aliceblue")})
+        //-       .on("mouseout", function(){d3.select(this).style("background-color", "white")})
+        //-       .text(function(d){return d;})
+        //-       .style("font-size", "12px")
+        //-       .call(function () {
+        //-         $('.table > .loader').hide();
+        //-       });
+        //- });
+
+        // ---- GRAPH ----
+        const width = 540;
+        const height = 540;
+        const radius = Math.min(width, height) / 2;
+
+        var graph = d3.select(".graph")
+          .append("svg")
+          .attr("width", width)
+          .attr("height", height);
+
+        var g = graph.append("g").attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+        var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+        const pie = d3.pie()
+            .value(d => d[1])
+            .sort(null);
+
+        const arc = d3.arc()
+            .innerRadius(0)
+            .outerRadius(radius);
+
+        //- var label = d3.arc()
+        //-     .outerRadius(radius - 40)
+        //-     .innerRadius(radius - 40);
+
+        d3.csv(heroData).then(function(d) {
+          var byAlignment = _.toPairs(_.countBy(d.map(datum => datum.ALIGN)));
+
+          // Join new data
+          const path = g.selectAll("path")
+              .data(pie(byAlignment));
+
+          path.enter().append("path")
+              .attr("fill", (d, i) => color(i))
+              .attr("d", arc)
+              .attr("stroke", "white")
+              .attr("stroke-width", "6px")
+              .each(function(d) { this._current = d; });
+        });
+      });
